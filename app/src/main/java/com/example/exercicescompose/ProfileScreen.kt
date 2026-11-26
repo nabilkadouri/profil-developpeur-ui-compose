@@ -267,7 +267,7 @@ fun ProfileDescription(description: String, modifier: Modifier = Modifier) {
 }
 
 // Preview en mode clair
-@Preview(showBackground = true, name = "Léa - clair")
+@Preview(showBackground = true, name = "Léa - clair", heightDp = 1000)
 @Composable
 fun ProfileLightPreview() {
     ExercicesComposeTheme(darkTheme = false) {
@@ -276,7 +276,7 @@ fun ProfileLightPreview() {
 }
 
 // Preview en mode sombre
-@Preview(showBackground = true, name = "Tom - sombre", uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Preview(showBackground = true, name = "Tom - sombre", uiMode = Configuration.UI_MODE_NIGHT_YES, heightDp = 1000)
 @Composable
 fun ProfileDarkPreview() {
     ExercicesComposeTheme(darkTheme = true) {
