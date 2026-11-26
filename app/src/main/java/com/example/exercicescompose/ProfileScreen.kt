@@ -13,10 +13,14 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -44,6 +48,8 @@ fun ProfileScreen(
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         item { ProfileHeader(profile = profile) }
+        item { SectionTitle(title = "Compétences") }
+        item { SkillsRow(skills = profile.skills) }
     }
 }
 
@@ -70,6 +76,48 @@ fun ProfileHeader(profile: Profile, modifier: Modifier = Modifier) {
             Spacer(modifier = Modifier.height(8.dp))
             ProfileDescription(description = profile.description)
         }
+    }
+}
+
+// Représente un titre de section ("Compétences", "Projets"...)
+@Composable
+fun SectionTitle(title: String, modifier: Modifier = Modifier) {
+    Text(
+        text = title,
+        style = MaterialTheme.typography.titleLarge,
+        modifier = modifier
+    )
+}
+
+// Représente la ligne de compétences qui défile
+@Composable
+fun SkillsRow(skills: List<String>, modifier: Modifier = Modifier) {
+    LazyRow(
+        modifier = modifier,
+        horizontalArrangement = Arrangement.spacedBy(8.dp) // espace entre les cartes
+    ) {
+        items(skills) { skill ->
+            SkillCard(skill = skill)
+        }
+    }
+}
+
+// Représente UNE compétence (élément réutilisable de la liste)
+@Composable
+fun SkillCard(skill: String, modifier: Modifier = Modifier) {
+    Card(
+        shape = MaterialTheme.shapes.small,
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.secondaryContainer,
+            contentColor = MaterialTheme.colorScheme.onSecondaryContainer
+        ),
+        modifier = modifier
+    ) {
+        Text(
+            text = skill,
+            style = MaterialTheme.typography.labelLarge,
+            modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp) // padding interne
+        )
     }
 }
 
