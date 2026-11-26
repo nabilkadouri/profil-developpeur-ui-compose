@@ -38,6 +38,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.exercicescompose.ui.theme.ExercicesComposeTheme
+import androidx.compose.material.icons.filled.Email
+import androidx.compose.material3.Button
+import androidx.compose.material3.OutlinedTextField
 
 // Représente l'écran principal : une liste qui défile
 @Composable
@@ -56,6 +59,12 @@ fun ProfileScreen(
         item { SectionTitle(title = "Projets") }
         items(profile.projects) { project ->
             ProjectCard(project = project)
+        }
+        item { ContactSection(email = profile.email) }
+        item {
+            ProfileActionButton(
+                onClick = { /* Plus tard : envoyer un message */ }
+            )
         }
     }
 }
@@ -86,7 +95,7 @@ fun ProfileHeader(profile: Profile, modifier: Modifier = Modifier) {
     }
 }
 
-// Représente un titre de section ("Compétences", "Projets"...)
+// Représente un titre de section ("Compétences", "Projets" etc...)
 @Composable
 fun SectionTitle(title: String, modifier: Modifier = Modifier) {
     Text(
@@ -101,7 +110,7 @@ fun SectionTitle(title: String, modifier: Modifier = Modifier) {
 fun SkillsRow(skills: List<String>, modifier: Modifier = Modifier) {
     LazyRow(
         modifier = modifier,
-        horizontalArrangement = Arrangement.spacedBy(8.dp) // espace entre les cartes
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items(skills) { skill ->
             SkillCard(skill = skill)
@@ -117,7 +126,6 @@ fun ProjectCard(project: Project, modifier: Modifier = Modifier) {
         modifier = modifier.fillMaxWidth()
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
-            // Ligne du haut : icône + titre côte à côte
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Icon(
                     imageVector = Icons.Default.Star,
@@ -130,6 +138,49 @@ fun ProjectCard(project: Project, modifier: Modifier = Modifier) {
             Spacer(modifier = Modifier.height(4.dp))
             Text(text = project.description, style = MaterialTheme.typography.bodyMedium)
         }
+    }
+}
+
+// Représente la zone contact (email en lecture seule)
+@Composable
+fun ContactSection(email: String, modifier: Modifier = Modifier) {
+    Card(
+        shape = MaterialTheme.shapes.medium,
+        modifier = modifier.fillMaxWidth()
+    ) {
+        Column(modifier = Modifier.padding(16.dp)) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Icon(
+                    imageVector = Icons.Default.Email,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.primary
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(text = "Contact", style = MaterialTheme.typography.titleMedium)
+            }
+            Spacer(modifier = Modifier.height(12.dp))
+            OutlinedTextField(
+                value = email,
+                onValueChange = {},
+                readOnly = true,
+                label = { Text("Email") },
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
+    }
+}
+
+// Représente le bouton d'action (le parent décide quoi faire au clic)
+@Composable
+fun ProfileActionButton(onClick: () -> Unit, modifier: Modifier = Modifier) {
+    Button(
+        onClick = onClick,
+        shape = MaterialTheme.shapes.small,
+        modifier = modifier.fillMaxWidth()
+    ) {
+        Icon(imageVector = Icons.Default.Email, contentDescription = null)
+        Spacer(modifier = Modifier.width(8.dp))
+        Text(text = "Me contacter", style = MaterialTheme.typography.labelLarge)
     }
 }
 
